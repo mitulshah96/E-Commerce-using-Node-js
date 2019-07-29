@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-//mongoose allow to create a new schemeas
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
@@ -28,6 +27,7 @@ const productSchema = new Schema({
 });
 
 module.exports = mongoose.model('Product', productSchema);
+
 // const mongodb = require('mongodb');
 // const getDb = require('../util/database').getDb;
 

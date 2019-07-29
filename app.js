@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const errorController = require('./controllers/error');
-// const mongoConnect = require('./util/database').mongoConnect;
 const User = require('./models/user');
 
 const app = express();
@@ -15,6 +14,7 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -22,7 +22,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
     User.findById('5d36ab2fdf3b1b483a089846')
         .then(user => {
-            // console.log('user', user);
             req.user = user;
             next();
         })
@@ -31,6 +30,7 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 app.use(errorController.get404);
 
@@ -51,7 +51,8 @@ mongoose
                 user.save();
             }
         });
-
         app.listen(3000);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err);
+    });
